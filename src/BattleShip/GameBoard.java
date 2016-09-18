@@ -21,7 +21,7 @@ public class GameBoard
 		for (int i = 0; i < rowCount; i++) {
 			cells.add(new ArrayList<Cell>());
 			for (int j = 0; j < colCount; j++) {
-				cells.get(i).set(j, new Cell());
+				cells.get(i).add(new Cell());
 			}
 		}
 	}
@@ -60,6 +60,7 @@ public class GameBoard
 	public boolean addShip( Ship s , Position sternLocation, HEADING bowDirection )
 	{
 		boolean shipAdded = false;
+		ArrayList<Cell> shipPos = new ArrayList<Cell>();
 		if(sternLocation.x < 0 || sternLocation.x >= rowCount || sternLocation.y < 0 || sternLocation.y >= colCount) {
 			System.out.println("The ship has not been placed on the board");
 			return shipAdded;
@@ -69,27 +70,68 @@ public class GameBoard
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.x-i).get(sternLocation.y) != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.x-i).get(sternLocation.y));
+				}
+			}
+			shipAdded = true;
+			s.setPosition(shipPos);
+			return shipAdded;
 		}
 		if(bowDirection == HEADING.EAST) {
 			if(sternLocation.x + s.getLength() > rowCount - 1) {
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.x+i).get(sternLocation.y) != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.x+i).get(sternLocation.y));
+				}
+			}
+			shipAdded = true;
+			s.setPosition(shipPos);
+			return shipAdded;
 		}
 		if(bowDirection == HEADING.NORTH){
 			if(sternLocation.y - s.getLength() < 0) {
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.x).get(sternLocation.y-i) != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y-i));
+				}
+			}
+			shipAdded = true;
+			s.setPosition(shipPos);
+			return shipAdded;
 		}
 		if(bowDirection == HEADING.SOUTH) {
 			if(sternLocation.y + s.getLength() > rowCount - 1) {
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.x).get(sternLocation.y+i) != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y+i));
+				}
+			}
+			shipAdded = true;
+			s.setPosition(shipPos);
+			return shipAdded;
 		}
 		else {
-			s.setPosition();
+			System.out.println("Did not match with a heading... Something went wrong PGB");
+			return shipAdded;
 		}
 	}
 	
@@ -99,7 +141,16 @@ public class GameBoard
 	//Ensure you handle missiles that may fly off the grid
 	public Ship fireMissle( Position coordinate )
 	{
-		
+		if(coordinate.x < 0 || coordinate.x >= rowCount || coordinate.y < 0 || coordinate.y >= colCount) {
+			System.out.println("Missile was fired off of the board");
+			return null;
+		} else if (cells.get(coordinate.x).get(coordinate.y).getShip() != null) {
+			cells.get(coordinate.x).get(coordinate.y).hasBeenStruckByMissile(true);
+			return cells.get(coordinate.x).get(coordinate.y).ship;
+		} else {
+			System.out.println("Did not hit a ship... PGB");
+			return null;
+		}		
 	}
 	
 	//Here's a simple driver that should work without touching any of the code below this point
