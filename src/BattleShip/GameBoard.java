@@ -44,7 +44,7 @@ public class GameBoard
 						boardDrawing.append(LINE_END);
 					}
 				} else {
-					boardDrawing.append(cells.get(i).get(j).draw()); //Needs to get the (i,j) cell in the array list... don't know if this piece works
+					boardDrawing.append(cells.get(i-1).get(j-1).draw()); //Needs to get the (i,j) cell in the array list... don't know if this piece works
 				}
 			}
 		}
@@ -71,7 +71,7 @@ public class GameBoard
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x-i).get(sternLocation.y) != null) {
+				if(cells.get(sternLocation.x-i).get(sternLocation.y).getShip() != null) {
 					return shipAdded;
 				} else {
 					shipPos.add(cells.get(sternLocation.x-i).get(sternLocation.y));
@@ -87,7 +87,7 @@ public class GameBoard
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x+i).get(sternLocation.y) != null) {
+				if(cells.get(sternLocation.x+i).get(sternLocation.y).getShip() != null) {
 					return shipAdded;
 				} else {
 					shipPos.add(cells.get(sternLocation.x+i).get(sternLocation.y));
@@ -103,7 +103,7 @@ public class GameBoard
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x).get(sternLocation.y-i) != null) {
+				if(cells.get(sternLocation.x).get(sternLocation.y-i).getShip() != null) {
 					return shipAdded;
 				} else {
 					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y-i));
@@ -119,7 +119,7 @@ public class GameBoard
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x).get(sternLocation.y+i) != null) {
+				if(cells.get(sternLocation.x).get(sternLocation.y+i).getShip() != null) {
 					return shipAdded;
 				} else {
 					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y+i));
