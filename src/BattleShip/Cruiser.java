@@ -21,7 +21,7 @@ public class Cruiser extends Ship {
 	}
 	@Override
 	public int getLength() {
-		length = 3;
+		length = 4;
 		return length;
 	}
 }

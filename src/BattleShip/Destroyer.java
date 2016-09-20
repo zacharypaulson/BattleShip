@@ -22,7 +22,7 @@ public class Destroyer extends Ship {
 
 	@Override
 	public int getLength() {
-		length = 4;
+		length = 3;
 		return length;
 	}
 	

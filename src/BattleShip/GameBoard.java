@@ -66,66 +66,78 @@ public class GameBoard
 			return shipAdded;
 		}
 		if(bowDirection == HEADING.WEST) {
-			if(sternLocation.x - s.getLength() < 0) {
-				System.out.println("The ship ends off of the board");
-				return shipAdded;
-			}
-			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x-i).get(sternLocation.y).getShip() != null) {
-					return shipAdded;
-				} else {
-					shipPos.add(cells.get(sternLocation.x-i).get(sternLocation.y));
-				}
-			}
-			shipAdded = true;
-			s.setPosition(shipPos);
-			return shipAdded;
-		}
-		if(bowDirection == HEADING.EAST) {
-			if(sternLocation.x + s.getLength() > rowCount - 1) {
-				System.out.println("The ship ends off of the board");
-				return shipAdded;
-			}
-			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x+i).get(sternLocation.y).getShip() != null) {
-					return shipAdded;
-				} else {
-					shipPos.add(cells.get(sternLocation.x+i).get(sternLocation.y));
-				}
-			}
-			shipAdded = true;
-			s.setPosition(shipPos);
-			return shipAdded;
-		}
-		if(bowDirection == HEADING.NORTH){
 			if(sternLocation.y - s.getLength() < 0) {
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x).get(sternLocation.y-i).getShip() != null) {
+				if(cells.get(sternLocation.y).get(sternLocation.x-i).getShip() != null) {
 					return shipAdded;
 				} else {
-					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y-i));
+					shipPos.add(cells.get(sternLocation.y).get(sternLocation.x-i));
 				}
 			}
 			shipAdded = true;
+			for(int j = 0; j < s.getLength(); j++) {
+				cells.get(sternLocation.y).get(sternLocation.x-j).setShip(s);
+			}
 			s.setPosition(shipPos);
 			return shipAdded;
 		}
-		if(bowDirection == HEADING.SOUTH) {
+		if(bowDirection == HEADING.EAST) {
 			if(sternLocation.y + s.getLength() > rowCount - 1) {
 				System.out.println("The ship ends off of the board");
 				return shipAdded;
 			}
 			for(int i = 0; i < s.getLength(); i++) {
-				if(cells.get(sternLocation.x).get(sternLocation.y+i).getShip() != null) {
+				if(cells.get(sternLocation.y).get(sternLocation.x+i).getShip() != null) {
 					return shipAdded;
 				} else {
-					shipPos.add(cells.get(sternLocation.x).get(sternLocation.y+i));
+					shipPos.add(cells.get(sternLocation.y).get(sternLocation.x+i));
 				}
 			}
 			shipAdded = true;
+			for(int j = 0; j < s.getLength(); j++) {
+				cells.get(sternLocation.y).get(sternLocation.x+j).setShip(s);
+			}
+			s.setPosition(shipPos);
+			return shipAdded;
+		}
+		if(bowDirection == HEADING.NORTH){
+			if(sternLocation.x - s.getLength() < 0) {
+				System.out.println("The ship ends off of the board");
+				return shipAdded;
+			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.y-i).get(sternLocation.x).getShip() != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.y-i).get(sternLocation.x));
+				}
+			}
+			shipAdded = true;
+			for(int j = 0; j < s.getLength(); j++) {
+				cells.get(sternLocation.y-j).get(sternLocation.x).setShip(s);
+			}
+			s.setPosition(shipPos);
+			return shipAdded;
+		}
+		if(bowDirection == HEADING.SOUTH) {
+			if(sternLocation.x + s.getLength() > rowCount - 1) {
+				System.out.println("The ship ends off of the board");
+				return shipAdded;
+			}
+			for(int i = 0; i < s.getLength(); i++) {
+				if(cells.get(sternLocation.y+i).get(sternLocation.x).getShip() != null) {
+					return shipAdded;
+				} else {
+					shipPos.add(cells.get(sternLocation.y+i).get(sternLocation.x));
+				}
+			}
+			shipAdded = true;
+			for(int j = 0; j < s.getLength(); j++) {
+				cells.get(sternLocation.y+j).get(sternLocation.x).setShip(s);
+			}
 			s.setPosition(shipPos);
 			return shipAdded;
 		}
@@ -144,11 +156,11 @@ public class GameBoard
 		if(coordinate.x < 0 || coordinate.x >= rowCount || coordinate.y < 0 || coordinate.y >= colCount) {
 			System.out.println("Missile was fired off of the board");
 			return null;
-		} else if (cells.get(coordinate.x).get(coordinate.y).getShip() != null) {
-			cells.get(coordinate.x).get(coordinate.y).hasBeenStruckByMissile(true);
-			return cells.get(coordinate.x).get(coordinate.y).ship;
+		} else if (cells.get(coordinate.y).get(coordinate.x).getShip() != null) {
+			cells.get(coordinate.y).get(coordinate.x).hasBeenStruckByMissile(true);
+			return cells.get(coordinate.y).get(coordinate.x).ship;
 		} else {
-			System.out.println("Did not hit a ship... PGB");
+			System.out.println("Did not hit a ship");
 			return null;
 		}		
 	}
