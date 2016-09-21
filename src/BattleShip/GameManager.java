@@ -45,12 +45,28 @@ public class GameManager
 	//Don't forget about try/finally blocks, if needed
 	boolean waitFor2PlayersToConnect() throws IOException
 	{
-		
+		try{
+			int portNumber = 10000;
+			this.listener = new ServerSocket(portNumber);
+			while(clients.size() < 2) {
+				Socket clientSocket = listener.accept();
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				Client c = new Client(in, out, this);
+				clients.add(c);
+				System.out.println("A client has connected");
+				out.println("WELCOME TO BATTLESHIP");
+			}
+			return true;
+		} finally {
+			System.out.println("Done listening for clients to connect");
+		}
 	}
 	
 	//let players initialize their name, and gameboard here. This should be done asynchronously
 	void initPlayers() throws IOException
 	{
+		clients.parallelStream().forEach(client ->);
 	}
 	
 	

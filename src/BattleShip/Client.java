@@ -45,7 +45,6 @@ public class Client
 	//Returns a bool, true iff all of this client's ships are destroyed
 	boolean allMyShipsAreDestroyed()
 	{
-		
 	}
 
 	//Returns a bool, true iff all of the opponent's ships are destroyed
